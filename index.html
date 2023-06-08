@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>체육부 연합 축제</title>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    
+    /* ... existing CSS styles ... */
+    
+    #countdown {
+      font-size: 48px;
+      margin-top: 20px;
+    }
+    
+    #message {
+      font-size: 24px;
+      margin-top: 20px;
+    }
+    
+    #box {
+      display: none;
+      width: 300px;
+      height: 200px;
+      background-color: #000000;
+      margin-top: 50px;
+      opacity: 0;
+      transform: scale(1.5);
+      transition: opacity 0.5s, transform 0.5s;
+    }
+    
+    #title {
+      font-size: 24px;
+      margin-top: 20px;
+      color: white;
+      font-size: 16px;
+    }
+    
+    #content {
+      font-size: 16px;
+      margin-top: 10px;
+      color: white;
+    }
+    
+    #bar {
+      width: 200px;
+      height: 10px;
+      background-color: white;
+      margin-top: 50px;
+      cursor: pointer;
+      transition: transform 0.5s;
+    }
+  </style>
+  <script>
+    window.onload = function() {
+      var countdownElement = document.getElementById('countdown');
+      var messageElement = document.getElementById('message');
+      var boxElement = document.getElementById('box');
+      var titleElement = document.getElementById('title');
+      var contentElement = document.getElementById('content');
+      var barElement = document.getElementById('bar');
+      var votePageBtn = document.getElementById('vote-page-btn');
+      var voteTextElement = document.getElementById('vote-text');
+      var voteSection = document.getElementById('vote-section');
+      var voteBtn = document.getElementById('vote-btn');
+      var resultBtn = document.getElementById('result-btn');
+      var voteResultElement = document.getElementById('vote-result');
+      var timer;
+      
+      var countdownDate = new Date('2023-06-14T13:10:00Z').getTime();
+      
+      var countdownInterval = setInterval(function() {
+        var now = new Date().getTime();
+        var distance = countdownDate - now;
+        
+        if (distance > 0) {
+          var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+          
+          countdownElement.innerHTML = days + "일 " + hours + "시간 " + minutes + "분 " + seconds + "초";
+          titleElement.style.display = 'block'; // Display the title element
+        } else {
+          clearInterval(countdownInterval);
+          countdownElement.style.display = 'none';
+          messageElement.innerHTML = "축제 시작!";
+        }
+      }, 1000);
+      
+      barElement.addEventListener('mouseenter', function() {
+        clearTimeout(timer);
+        boxElement.style.display = 'block';
+        boxElement.style.opacity = '1';
+        boxElement.style.transform = 'scale(1)';
+        titleElement.style.opacity = '1';
+        titleElement.style.transform = 'translateY(0)';
+        contentElement.style.opacity = '1';
+        contentElement.style.transform = 'translateY(0)';
+        votePageBtn.style.display = 'block'; // Display the vote page button
+      });
+      
+      barElement.addEventListener('mouseleave', function() {
+        timer = setTimeout(function() {
+          boxElement.style.display = 'none';
+          boxElement.style.opacity = '0';
+          boxElement.style.transform = 'scale(1.5)';
+          contentElement.style.opacity = '0';
+          contentElement.style.transform = 'translateY(20px)';
+        }, 1000);
+      });
+      
+      votePageBtn.addEventListener('click', function() {
+        window.open("vote.html", "_blank");
+      });
+      
+      voteBtn.addEventListener('click', function() {
+        voteTextElement.innerHTML = "텍스트1 VS 텍스트2";
+        voteSection.style.display = 'block'; // Display the voting section
+      });
+      
+      resultBtn.addEventListener('click', function() {
+        voteResultElement.innerHTML = "투표 결과가 표시됩니다.";
+        voteResultElement.style.display = 'block'; // Display the vote result
+      });
+    };
+  </script>
+</head>
+<body>
+  <h1 id="title" style="display: none;">체육부 연합축제</h1>
+  <div id="countdown"></div>
+  <div id="message"></div>
+  <div id="bar"></div>
+  <div id="box">
+    <div id="content">
+      체육부 연합축제에 오신 것을 <br>
+      진심으로 환영합니다.<br>
+      저희 체육부 연합축제일정 안내<br> 
+      -----------------------<br>
+      1. 1시10분 축제시작 <br>
+
+      2. 1시10분 ~ 1시30분 2학기동아리 <br>
+      일정/장소 정하기 <br>
+      3. 1시30분 ~ 2시00분 단체피구 게임 <br>
+      4. 2시00분 ~ 2시25분 동아리 과자 파티 <br>
+      5. 2시25분 ~ 2시30분 뒷 정리 마무리 <br>
+      --------------------------------- <br>
+    </div>
+  </div>
+  
+  <div id="vote-section" style="display: none;">
+    <div id="vote-text"></div>
+    <button id="vote-btn">투표하기</button>
+    <button id="result-btn">투표결과보기</button>
+    <div id="vote-result"></div>
+  </div>
+  
+  <button id="vote-page-btn" style="display: none;">투표페이지로 이동</button>
+</body>
+</html>
